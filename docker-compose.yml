@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  db:
+    image: timescale/timescaledb-ha:pg16
+    container_name: chronoscope_db
+    environment:
+      POSTGRES_DB: chronoscope
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - chronoscope_db_data:/home/postgres/pgdata/data
+      - ./db:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d chronoscope"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: chronoscope_api
+    environment:
+      DATABASE_URL: postgresql://postgres:password@db:5432/chronoscope
+      ENVIRONMENT: development
+      DEVIATION_THRESHOLD: "0.15"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  chronoscope_db_data:
