@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 import asyncpg
-from ..main import get_conn
+from main import get_conn
 
 router = APIRouter(prefix="/events", tags=["events"])
 
@@ -23,6 +23,6 @@ async def counterfactual(event_id: int, conn: asyncpg.Connection = Depends(get_c
 
 @router.post("/poll")
 async def poll(conn: asyncpg.Connection = Depends(get_conn)):
-    from ..engine.detector import run_detection
+    from engine.detector import run_detection
     new_ids = await run_detection(conn)
     return {"new_events": new_ids}

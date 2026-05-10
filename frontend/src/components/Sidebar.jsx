@@ -7,7 +7,7 @@ const TABLES = [
   { name: "system_logs",     status: "blue"  },
 ];
 
-export default function Sidebar({ events, selectedEvent, onSelectEvent }) {
+export default function Sidebar({ events, selectedEvent, onSelectEvent, activeView, onViewChange }) {
   return (
     <aside style={{
       background: "rgba(11,13,19,0.75)", borderRight: "1px solid var(--b1)",
@@ -18,14 +18,19 @@ export default function Sidebar({ events, selectedEvent, onSelectEvent }) {
         <div style={{ fontSize: 9, letterSpacing: "0.12em", color: "var(--t4)", textTransform: "uppercase", marginBottom: 8 }}>
           Views
         </div>
-        {NAV.map((n, i) => (
-          <div key={n} style={{
-            display: "flex", alignItems: "center", gap: 8, padding: "7px 8px",
-            borderRadius: 5, cursor: "pointer", fontSize: 11, marginBottom: 2,
-            background: i === 0 ? "rgba(80,128,255,0.08)" : "transparent",
-            color: i === 0 ? "var(--blue2)" : "var(--t3)",
-            border: i === 0 ? "1px solid rgba(80,128,255,0.2)" : "1px solid transparent",
-          }}>
+        {NAV.map((n) => (
+          <div
+            key={n}
+            onClick={() => onViewChange(n)}
+            style={{
+              display: "flex", alignItems: "center", gap: 8, padding: "7px 8px",
+              borderRadius: 5, cursor: "pointer", fontSize: 11, marginBottom: 2,
+              background: activeView === n ? "rgba(80,128,255,0.08)" : "transparent",
+              color: activeView === n ? "var(--blue2)" : "var(--t3)",
+              border: activeView === n ? "1px solid rgba(80,128,255,0.2)" : "1px solid transparent",
+              transition: "all 0.15s",
+            }}
+          >
             <div style={{ width: 5, height: 5, borderRadius: "50%", background: "currentColor", flexShrink: 0 }} />
             {n}
           </div>

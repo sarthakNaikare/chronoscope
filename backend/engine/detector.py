@@ -1,7 +1,7 @@
 import asyncpg
 import os
 from datetime import datetime
-from .shadow_projection import compute_shadow
+from engine.shadow_projection import compute_shadow
 
 THRESHOLD = float(os.getenv("DEVIATION_THRESHOLD", "0.15"))
 

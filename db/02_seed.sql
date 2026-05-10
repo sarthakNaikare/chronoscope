@@ -40,6 +40,6 @@ SELECT gs, 'device_5',
     57.0 + (random() * 4.0), 1011.0 + (random() * 2.0 - 1.0)
 FROM generate_series(NOW() - INTERVAL '30 days', NOW(), INTERVAL '5 minutes') AS gs;
 
-CALL refresh_continuous_aggregate('sensor_hourly', NOW() - INTERVAL '30 days', NOW());
-
 COMMIT;
+
+CALL refresh_continuous_aggregate('sensor_hourly', NOW() - INTERVAL '30 days', NOW());

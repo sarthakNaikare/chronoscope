@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 import asyncpg
-from ..main import get_conn
-from ..engine.chunk_autopsy import get_chunk_signals
+from main import get_conn
+from engine.chunk_autopsy import get_chunk_signals
 
 router = APIRouter(prefix="/chunks", tags=["chunks"])
 

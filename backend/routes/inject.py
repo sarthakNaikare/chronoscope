@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 import asyncpg
-from ..models.schemas import InjectRequest
-from ..main import get_conn
+from models.schemas import InjectRequest
+from main import get_conn
 
 router = APIRouter(prefix="/inject", tags=["inject"])
 
@@ -17,6 +17,6 @@ async def inject_anomaly(body: InjectRequest, conn: asyncpg.Connection = Depends
         CALL refresh_continuous_aggregate('sensor_hourly', NOW() - INTERVAL '3 hours', NOW())
     """)
 
-    from ..engine.detector import run_detection
+    from engine.detector import run_detection
     new_ids = await run_detection(conn)
     return {"status": "injected", "new_event_ids": new_ids}

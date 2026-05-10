@@ -30,10 +30,10 @@ async def get_conn():
     async with pool.acquire() as conn:
         yield conn
 
-from backend.routes.events  import router as events_router
-from backend.routes.chunks  import router as chunks_router
-from backend.routes.explain import router as explain_router
-from backend.routes.inject  import router as inject_router
+from routes.events  import router as events_router
+from routes.chunks  import router as chunks_router
+from routes.explain import router as explain_router
+from routes.inject  import router as inject_router
 
 app.include_router(events_router)
 app.include_router(chunks_router)
